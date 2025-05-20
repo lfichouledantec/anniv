@@ -45,7 +45,8 @@
   </style>
 </head>
 <body class="text-center">
-
+<audio id="confettiSound" src="confetti.mp3" preload="auto"></audio>
+<audio id="sad" src="sad.mp3" preload="auto"></audio>
   <div class="container py-5">
     <h1 class="mb-4">Bon Anniversaire Envel</h1>
     <h2 class="mb-5">Clique sur un cadeau pour l’ouvrir 🎁</h2>
@@ -53,12 +54,12 @@
     <div class="row justify-content-center">
       <!-- Cadeau 1 -->
       <div class="col-4">
-        <img src="image1.png" class="cadeau" data-opened="false" data-image-open="kdo2.png" onclick="ouvrirCadeau(this, 'raté')">
+        <img src="image1.png" class="cadeau" data-opened="false" data-image-open="kdo2.png" onclick="ouvrir(this, 'raté')">
         <div class="message"></div>
       </div>
       <!-- Cadeau 2 -->
       <div class="col-4">
-        <img src="image2.png" class="cadeau" data-opened="false" data-image-open="kdo.png" onclick="ouvrirCadeau(this, 'essaie encore')">
+        <img src="image2.png" class="cadeau" data-opened="false" data-image-open="kdo.png" onclick="ouvrir(this, 'essaie encore')">
         <div class="message"></div>
       </div>
       <!-- Cadeau 3 (gagnant) -->
@@ -80,8 +81,20 @@
       const messageDiv = img.nextElementSibling;
       messageDiv.textContent = messageTexte;
 
+      document.getElementById('confettiSound').play();
       // Lance les confettis
       explosionConfettis();
+    }
+    function ouvrir(img, messageTexte) {
+      if (img.dataset.opened === "true") return;
+
+      img.src = img.dataset.imageOpen;
+      img.dataset.opened = "true";
+
+      // Affiche le message sous le cadeau
+      const messageDiv = img.nextElementSibling;
+      messageDiv.textContent = messageTexte;
+      document.getElementById('sad').play();
     }
 
     function explosionConfettis() {
